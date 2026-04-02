@@ -5,15 +5,14 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'assets.tina.io',
+        hostname: '**.cloudinary.com',
       },
       {
         protocol: 'https',
-        hostname: '**.cloudinary.com',
+        hostname: '**.unsplash.com',
       },
     ],
   },
-  transpilePackages: ['tinacms', '@tinacms/toolkit'],
 }
 
 module.exports = nextConfig
