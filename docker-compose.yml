@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  website-builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      # ── Site ──────────────────────────────────────────────────────────────
+      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      # ── GoHighLevel ───────────────────────────────────────────────────────
+      - NEXT_PUBLIC_GHL_LOCATION_ID=${NEXT_PUBLIC_GHL_LOCATION_ID:-}
+      # ── n8n Automation Bridge ─────────────────────────────────────────────
+      - NEXT_PUBLIC_N8N_BASE_URL=${NEXT_PUBLIC_N8N_BASE_URL:-}
+      - N8N_WEBHOOK_SECRET=${N8N_WEBHOOK_SECRET:-}
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000"]
+      interval: 30s
+      timeout:  10s
+      retries:  3
+      start_period: 40s

@@ -12,16 +12,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build-time ENV
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV TINA_PUBLIC_IS_LOCAL=true
-ENV NEXT_PUBLIC_TINA_CLIENT_ID=local
-ENV TINA_TOKEN=local
-ENV SKIP_TINA_CLOUD_CHECK=true
 
-# tina/__generated__ is pre-committed — Next.js uses it directly.
-# No tinacms build step needed here.
 RUN npm run build
 
 # ── Stage 3: Production Runner ────────────────────────────────────────────────
@@ -31,11 +24,10 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser  --system --uid 1001 nextjs
+RUN addgroup --system --gid 1001 nodejs &&     adduser  --system --uid 1001 nextjs
 
-COPY --from=builder /app/public        ./public
-COPY --from=builder /app/.next/static  ./.next/static
+COPY --from=builder /app/public                            ./public
+COPY --from=builder /app/.next/static                      ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 
 USER nextjs
