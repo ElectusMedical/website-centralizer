@@ -12,18 +12,16 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# ── Build-time ENV ────────────────────────────────────────────────────────────
+# Build-time ENV
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 ENV TINA_PUBLIC_IS_LOCAL=true
 ENV NEXT_PUBLIC_TINA_CLIENT_ID=local
 ENV TINA_TOKEN=local
 ENV SKIP_TINA_CLOUD_CHECK=true
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
 
-# ── Step 1: Generate TinaCMS schema explicitly (catches errors early) ─────────
-RUN npx tinacms build
-
-# ── Step 2: Full production build ─────────────────────────────────────────────
+# tina/__generated__ is pre-committed — Next.js uses it directly.
+# No tinacms build step needed here.
 RUN npm run build
 
 # ── Stage 3: Production Runner ────────────────────────────────────────────────

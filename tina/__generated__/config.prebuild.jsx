@@ -77,14 +77,13 @@ var pageCollection = {
 };
 
 // tina/config.ts
-var isLocal = process.env.TINA_PUBLIC_IS_LOCAL === "true" || !process.env.NEXT_PUBLIC_TINA_CLIENT_ID || !process.env.TINA_TOKEN;
-var clientId = process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "local";
-var token = process.env.TINA_TOKEN || "local";
-var branch = process.env.TINA_BRANCH || process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF || "main";
 var config_default = defineConfig({
-  // ── Local mode skips all Tina Cloud auth requirements ──────────────────
-  ...isLocal ? {} : { branch, clientId, token },
-  localMode: isLocal,
+  // Hardcoded local mode — no cloud auth, no network fetch during build
+  clientId: "local",
+  token: "local",
+  branch: "main",
+  localMode: true,
+  contentApiUrlOverride: "/api/graphql",
   build: {
     outputFolder: "admin",
     publicFolder: "public"
