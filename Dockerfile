@@ -12,8 +12,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# ── Build-time ENV: Force TinaCMS into local/offline mode ─────────────────────
-# These variables ensure TinaCMS never attempts to reach Tina Cloud during build.
+# ── Build-time ENV ────────────────────────────────────────────────────────────
 ENV TINA_PUBLIC_IS_LOCAL=true
 ENV NEXT_PUBLIC_TINA_CLIENT_ID=local
 ENV TINA_TOKEN=local
@@ -21,7 +20,10 @@ ENV SKIP_TINA_CLOUD_CHECK=true
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Build TinaCMS schema (local mode) then Next.js
+# ── Step 1: Generate TinaCMS schema explicitly (catches errors early) ─────────
+RUN npx tinacms build
+
+# ── Step 2: Full production build ─────────────────────────────────────────────
 RUN npm run build
 
 # ── Stage 3: Production Runner ────────────────────────────────────────────────
