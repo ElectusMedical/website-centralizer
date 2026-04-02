@@ -3,7 +3,7 @@ import { notFound }   from "next/navigation";
 import Navigation    from "@/components/Navigation";
 import Footer        from "@/components/Footer";
 import GHLEmbed      from "@/components/GHLEmbed";
-import { client }    from "@/tina/__generated__/client";
+import { client }    from "@/lib/tina-client";
 
 interface PageProps {
   params: Promise<{ slug?: string[] }>;
@@ -17,7 +17,7 @@ export default async function DynamicPage({ params }: PageProps) {
   let data: any = null;
 
   try {
-    data = await (client.queries as any).page({
+    data = await (client as any).queries.page({
       relativePath: `${filename}.mdx`,
     });
   } catch {
