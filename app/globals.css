@@ -61,3 +61,15 @@ body {
 @media (min-width: 768px) {
   .section-pad { padding: 10rem 2rem; }
 }
+
+/* Ambient orb animations */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.08); }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 8s ease-in-out infinite;
+}
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
