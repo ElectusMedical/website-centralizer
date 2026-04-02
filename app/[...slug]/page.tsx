@@ -1,9 +1,9 @@
 
-import { notFound }     from "next/navigation";
-import Navigation      from "@/components/Navigation";
-import Footer          from "@/components/Footer";
-import GHLEmbed        from "@/components/GHLEmbed";
-import { client }      from "@/lib/tina-client";
+import { notFound }   from "next/navigation";
+import Navigation    from "@/components/Navigation";
+import Footer        from "@/components/Footer";
+import GHLEmbed      from "@/components/GHLEmbed";
+import { client }    from "@/tina/__generated__/client";
 
 interface PageProps {
   params: Promise<{ slug?: string[] }>;
@@ -13,10 +13,13 @@ export default async function DynamicPage({ params }: PageProps) {
   const { slug } = await params;
   const filename = slug?.join("/") ?? "home";
 
-  let data: Awaited<ReturnType<typeof client.queries.page>> | null = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let data: any = null;
 
   try {
-    data = await client.queries.page({ relativePath: `${filename}.mdx` });
+    data = await (client.queries as any).page({
+      relativePath: `${filename}.mdx`,
+    });
   } catch {
     notFound();
   }
@@ -38,7 +41,10 @@ export default async function DynamicPage({ params }: PageProps) {
 
           {/* GHL Embed if configured for this page */}
           {page.ghl?.embedCode && (
-            <GHLEmbed embedCode={page.ghl.embedCode} type={(page.ghl.embedType as "form" | "calendar") ?? "form"} />
+            <GHLEmbed
+              embedCode={page.ghl.embedCode}
+              type={(page.ghl.embedType as "form" | "calendar") ?? "form"}
+            />
           )}
         </div>
       </section>
@@ -48,6 +54,5 @@ export default async function DynamicPage({ params }: PageProps) {
 }
 
 export async function generateStaticParams() {
-  // Returns empty array in dev mode — pages are rendered on demand
   return [];
 }
