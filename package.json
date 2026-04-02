@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tinacms dev -c \"next dev --turbopack\"",
     "dev:next": "next dev --turbopack",
-    "build": "tinacms build --local && next build",
+    "build": "TINA_PUBLIC_IS_LOCAL=true NEXT_PUBLIC_TINA_CLIENT_ID=local TINA_TOKEN=local tinacms build --local && next build",
     "build:next": "next build",
     "start": "next start",
     "lint": "next lint",
