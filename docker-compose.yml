@@ -8,6 +8,8 @@ services:
     ports:
       - "3050:3000"
     restart: always
+    volumes:
+      - ./data:/app/data
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1

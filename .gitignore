@@ -40,3 +40,6 @@ next-env.d.ts
 # TinaCMS generated — MUST be committed for Docker builds
 !tina/__generated__
 !tina/tina-lock.json
+
+# Design snapshots (persisted via Docker volume)
+data/designs/
