@@ -1,0 +1,15 @@
+fragment PageParts on Page {
+  __typename
+  title
+  subtitle
+  ctaLabel
+  ctaUrl
+  metaDescription
+  heroImage
+  body
+  ghl {
+    __typename
+    embedCode
+    embedType
+  }
+}

@@ -12,7 +12,15 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build TinaCMS then Next.js
+# Hardcoded build-time environment variables
+# TinaCMS runs in local filesystem mode — no cloud credentials required
+ENV TINA_PUBLIC_IS_LOCAL=true
+ENV NEXT_PUBLIC_TINA_CLIENT_ID=local
+ENV TINA_TOKEN=local
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Build TinaCMS schema then Next.js
 RUN npm run build
 
 # ── Stage 3: Production Runner ────────────────────────────────────────────────
