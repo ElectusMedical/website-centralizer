@@ -12,8 +12,7 @@ interface ParallaxHeroProps {
 }
 
 export default function ParallaxHero({
-  title    = "Build Something
-Remarkable.",
+  title    = "Build Something Remarkable.",
   subtitle = "A high-performance marketing chassis built with Next.js 15, TinaCMS, and cinematic animations.",
   ctaLabel = "Get Started",
   ctaUrl   = "/#contact",
